@@ -1,0 +1,88 @@
+
+GET http://localhost:3001/projects
+
+###
+GET http://localhost:3001/ideas
+
+###
+GET http://localhost:3001/feedback
+
+###
+POST http://localhost:3001/feedback
+Content-Type: application/json
+
+{
+  "idea": "6af2dfd0de2bc3e3938570df",
+  "comment": "The concept is interesting, but the creative direction feels too bold for the client's current positioning.",
+  "category": "Style",
+  "author": "Creative Director",
+  "revision": 1
+}
+
+###
+PUT http://localhost:3001/projects/6af2dd95045b690db418344d
+Content-Type: application/json
+
+{
+  "title": "WHAT WILL PEOPLE SAY?",
+  "client": "Fashion Brand",
+  "description": "A fashion advertising campaign exploring the expectations, contradictions and unsolicited opinions women face. Sharp, playful and unapologetically independent.",
+  "category": "Fashion Campaign",
+  "status": "In progress",
+  "cover": "",
+  "tags": ["fashion", "advertising", "women", "editorial", "irony"]
+}
+
+###
+PUT http://localhost:3001/ideas/6af2dfd0de2bc3e3938570df
+Content-Type: application/json
+
+{
+  "title": "WELL BEHAVED?",
+  "description": "I tried. It was exhausting. A provocative fashion advertising concept challenging the unwritten rules of how women are expected to behave.",
+  "project": "6af2dd95045b690db418344d",
+  "status": "Proposed",
+  "rejectionReason": "",
+  "tags": ["fashion", "women", "irony", "advertising", "editorial"],
+  "image": ""
+}
+
+###
+POST http://localhost:3001/ideas
+Content-Type: application/json
+
+{
+  "title": "SHE HAS ISSUES.",
+  "description": "And impeccable taste. A playful fashion advertising concept celebrating imperfections, contradictions and the freedom to be unapologetically yourself.",
+  "project": "6af2dd95045b690db418344d",
+  "status": "Proposed",
+  "rejectionReason": "",
+  "tags": ["fashion", "women", "irony", "advertising", "editorial"],
+  "image": ""
+}
+
+###
+PUT http://localhost:3001/feedback/6af45b19fc450e397df4b4d9
+Content-Type: application/json
+
+{
+  "comment": "The concept is clever and memorable, but the client feels the tone is too provocative for the current campaign.",
+  "category": "Client request",
+  "author": "Creative Director",
+  "revision": 2
+}
+
+###
+POST http://localhost:3001/feedback
+Content-Type: application/json
+
+{
+  "idea": "6af2dfd0de2bc3e3938570df",
+  "comment": "Temporary feedback for DELETE testing.",
+  "category": "Other",
+  "author": "Test",
+  "revision": 1
+}
+
+###
+DELETE http://localhost:3001/feedback/6af4630e3f5662cf227052ee
