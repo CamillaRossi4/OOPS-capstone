@@ -4,6 +4,12 @@ OOPS! is a creative workspace designed for communication agencies and creative t
 
 It helps organise projects, collect ideas, document revisions and feedback, and rediscover concepts that deserve a second chance.
 
+## Live Application
+
+Frontend: https://oops-capstone.vercel.app/
+
+Backend: https://oops-backend-new.onrender.com/
+
 ## Features
 
 - User registration and login
@@ -21,14 +27,12 @@ It helps organise projects, collect ideas, document revisions and feedback, and 
 ## Technologies
 
 **Frontend**
-
 - React
 - Vite
 - React Router
 - CSS
 
 **Backend**
-
 - Node.js
 - Express
 - MongoDB
@@ -37,7 +41,9 @@ The frontend communicates with the backend through a REST API.
 
 ## Getting Started
 
-To start the frontend, navigate to the frontend directory:
+Clone the repository and install the dependencies.
+
+**Frontend**
 
 ```bash
 cd frontend
@@ -45,7 +51,15 @@ npm install
 npm run dev
 ```
 
-The backend must also be running for the application to work correctly.
+**Backend**
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+The backend must be running for the application to work correctly.
 
 ## Environment Variables
 
@@ -54,6 +68,8 @@ Create a `.env` file in the frontend directory:
 ```env
 VITE_API_URL=http://localhost:3001
 ```
+
+The backend also requires environment variables for the database connection, authentication and image uploads.
 
 ## Build
 
