@@ -2,7 +2,6 @@ const express = require("express");
 const crypto = require("crypto");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const nodemailer = require("nodemailer");
 const User = require("../models/User");
 const router = express.Router();
 const googleCodes = new Map();
@@ -108,16 +107,11 @@ router.post("/forgot-password", async (req, res) => {
     }
     const user = await User.findOne({ email: email.trim().toLowerCase() });
     if (!user || !user.password) return res.json({ message });
-    if (
-      !process.env.SMTP_HOST ||
-      !process.env.SMTP_USER ||
-      !process.env.SMTP_PASS ||
-      !process.env.SMTP_FROM
-    ) {
+    if (!process.env.RESEND_API_KEY || !process.env.RESEND_FROM) {
       console.error("Password reset email is not configured.");
-      return res
-        .status(503)
-        .json({ message: "Password recovery is temporarily unavailable." });
+      return res.status(503).json({
+        message: "Password recovery is temporarily unavailable.",
+      });
     }
     const token = crypto.randomBytes(32).toString("hex");
     user.resetPasswordToken = crypto
@@ -131,27 +125,35 @@ router.post("/forgot-password", async (req, res) => {
       .trim()
       .replace(/\/$/, "");
     const resetLink = `${clientUrl}/reset-password?token=${encodeURIComponent(token)}`;
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT || 587),
-      secure: Number(process.env.SMTP_PORT || 587) === 465,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        from: process.env.RESEND_FROM,
+        to: [user.email],
+        subject: "OOPS! — A fresh start",
+        text: `Hello ${user.name || "there"},\n\nSomeone requested a password reset for your OOPS! account.\n\nSet a new password here:\n${resetLink}\n\nThis link expires in 30 minutes. If you did not request this, you can ignore this email.\n\nOOPS!`,
+      }),
     });
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM,
-      to: user.email,
-      subject: "OOPS! — A fresh start",
-      text: `Hello ${user.name || "there"},\n\nSomeone requested a password reset for your OOPS! account.\n\nSet a new password here:\n${resetLink}\n\nThis link expires in 30 minutes. If you did not request this, you can ignore this email.\n\nOOPS!`,
-    });
+    if (!response.ok) {
+      console.error(
+        "Resend email error:",
+        response.status,
+        await response.text(),
+      );
+      return res.status(503).json({
+        message: "Password recovery is temporarily unavailable.",
+      });
+    }
     res.json({ message });
   } catch (error) {
     console.error("Forgot password error:", error);
-    res
-      .status(503)
-      .json({ message: "Password recovery is temporarily unavailable." });
+    res.status(503).json({
+      message: "Password recovery is temporarily unavailable.",
+    });
   }
 });
 router.post("/reset-password", async (req, res) => {
