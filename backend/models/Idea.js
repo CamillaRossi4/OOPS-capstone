@@ -9,10 +9,12 @@ const ideaSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      trim: true,
     },
     description: {
       type: String,
       required: true,
+      trim: true,
     },
     project: {
       type: mongoose.Schema.Types.ObjectId,
@@ -40,6 +42,16 @@ const ideaSchema = new mongoose.Schema(
     },
     folders: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Folder" }],
+      default: [],
+    },
+    images: {
+      type: [
+        {
+          url: { type: String, required: true },
+          publicId: { type: String, required: true },
+          _id: false,
+        },
+      ],
       default: [],
     },
     status: {

@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+const multer = require("multer");
+const cloudinary = require("../config/cloudinary");
 const Idea = require("../models/Idea");
 const Project = require("../models/Project");
 const Folder = require("../models/Folder");
-
 const checkFolders = async (folders, owner) => {
   if (!Array.isArray(folders)) return false;
   const ids = [...new Set(folders)];
@@ -15,7 +16,34 @@ const checkFolders = async (folders, owner) => {
   });
   return count === ids.length;
 };
-
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024, files: 5 },
+  fileFilter: (req, file, callback) => {
+    if (["image/jpeg", "image/png", "image/webp"].includes(file.mimetype)) {
+      return callback(null, true);
+    }
+    callback(new Error("Only JPG, PNG and WebP images are allowed."));
+  },
+});
+const uploadImage = (file) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "oops/ideas",
+        resource_type: "image",
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve({
+          url: result.secure_url,
+          publicId: result.public_id,
+        });
+      },
+    );
+    stream.end(file.buffer);
+  });
+};
 router.get("/", async (req, res) => {
   try {
     const ideas = await Idea.find({ owner: req.user._id })
@@ -27,7 +55,6 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 router.get("/:id/revisions", async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
@@ -69,7 +96,6 @@ router.get("/:id/revisions", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 router.post("/:id/revisions", async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(req.params.id)) {
@@ -118,7 +144,106 @@ router.post("/:id/revisions", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-
+router.post("/:id/images", async (req, res) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(404).json({ message: "Idea not found" });
+    }
+    const idea = await Idea.findOne({
+      _id: req.params.id,
+      owner: req.user._id,
+    });
+    if (!idea) {
+      return res.status(404).json({ message: "Idea not found" });
+    }
+    upload.array("images", 5)(req, res, async (error) => {
+      if (error) {
+        return res.status(400).json({ message: error.message });
+      }
+      if (!req.files || !req.files.length) {
+        return res.status(400).json({ message: "Choose at least one image." });
+      }
+      if (idea.images.length + req.files.length > 10) {
+        return res.status(400).json({
+          message: "Each idea can contain up to 10 images.",
+        });
+      }
+      const uploaded = [];
+      try {
+        for (const file of req.files) {
+          const image = await uploadImage(file);
+          uploaded.push(image);
+        }
+        const updated = await Idea.findOneAndUpdate(
+          {
+            _id: idea._id,
+            owner: req.user._id,
+            $expr: {
+              $lte: [
+                { $size: { $ifNull: ["$images", []] } },
+                10 - uploaded.length,
+              ],
+            },
+          },
+          { $push: { images: { $each: uploaded } } },
+          { new: true, runValidators: true },
+        );
+        if (!updated) {
+          throw new Error(
+            "The idea was deleted or has reached the image limit.",
+          );
+        }
+        await updated.populate("project");
+        await updated.populate("folders");
+        res.json(updated);
+      } catch (uploadError) {
+        for (const image of uploaded) {
+          try {
+            await cloudinary.uploader.destroy(image.publicId);
+          } catch (cleanupError) {
+            console.error("Image cleanup error:", cleanupError.message);
+          }
+        }
+        res.status(500).json({ message: uploadError.message });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+router.delete("/:id/images", async (req, res) => {
+  try {
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(404).json({ message: "Idea not found" });
+    }
+    const idea = await Idea.findOne({
+      _id: req.params.id,
+      owner: req.user._id,
+    });
+    if (!idea) {
+      return res.status(404).json({ message: "Idea not found" });
+    }
+    const image = idea.images.find(
+      (item) => item.publicId === req.body.publicId,
+    );
+    if (!image) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+    const result = await cloudinary.uploader.destroy(image.publicId);
+    if (result.result !== "ok" && result.result !== "not found") {
+      return res.status(502).json({ message: "Could not remove the image." });
+    }
+    idea.images = idea.images.filter(
+      (item) => item.publicId !== image.publicId,
+    );
+    await idea.save();
+    await idea.populate("project");
+    await idea.populate("folders");
+    res.json(idea);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 router.get("/:id", async (req, res) => {
   try {
     const idea = await Idea.findOne({
@@ -135,7 +260,6 @@ router.get("/:id", async (req, res) => {
     res.status(404).json({ message: "Idea not found" });
   }
 });
-
 router.post("/", async (req, res) => {
   try {
     const project = await Project.findOne({
@@ -181,7 +305,6 @@ router.post("/", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-
 router.put("/:id", async (req, res) => {
   try {
     const idea = await Idea.findOne({
@@ -225,20 +348,27 @@ router.put("/:id", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-
 router.delete("/:id", async (req, res) => {
   try {
-    const idea = await Idea.findOneAndDelete({
+    const idea = await Idea.findOne({
       _id: req.params.id,
       owner: req.user._id,
     });
     if (!idea) {
       return res.status(404).json({ message: "Idea not found" });
     }
+    for (const image of idea.images) {
+      const result = await cloudinary.uploader.destroy(image.publicId);
+      if (result.result !== "ok" && result.result !== "not found") {
+        return res.status(502).json({
+          message: "Could not remove the idea images.",
+        });
+      }
+    }
+    await Idea.deleteOne({ _id: idea._id, owner: req.user._id });
     res.json({ message: "Idea deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
-
 module.exports = router;

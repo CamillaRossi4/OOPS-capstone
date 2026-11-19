@@ -1,16 +1,72 @@
-# React + Vite
+# OOPS!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+OOPS! is a creative workspace designed for communication agencies and creative teams.
 
-Currently, two official plugins are available:
+It helps organise projects, collect ideas, document revisions and feedback, and rediscover concepts that deserve a second chance.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- User registration and login
+- Google authentication
+- Project creation and management
+- Idea library with categories and custom folders
+- Idea revisions and version history
+- Feedback tracking and breakpoint analysis
+- Rediscovery of previous ideas
+- Image uploads for projects and ideas
+- Completed project archive
+- Customisable workspace themes
+- English and Italian interface
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technologies
 
-## Expanding the ESLint configuration
+**Frontend**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React
+- Vite
+- React Router
+- CSS
+
+**Backend**
+
+- Node.js
+- Express
+- MongoDB
+
+The frontend communicates with the backend through a REST API.
+
+## Getting Started
+
+To start the frontend, navigate to the frontend directory:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The backend must also be running for the application to work correctly.
+
+## Environment Variables
+
+Create a `.env` file in the frontend directory:
+
+```env
+VITE_API_URL=http://localhost:3001
+```
+
+## Build
+
+From the frontend directory:
+
+```bash
+npm run build
+```
+
+## Code Quality
+
+From the frontend directory:
+
+```bash
+npm run lint
+```

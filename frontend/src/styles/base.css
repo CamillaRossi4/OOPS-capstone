@@ -1,0 +1,420 @@
+:root {
+  font-family: "DM Sans", Arial, sans-serif;
+  color: #171414;
+  background: #fff;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  --accent: #f8dde6;
+  --strong: #e31837;
+  --soft: #fff0f3;
+  --workspace-bg: #fffcf9;
+  --workspace-ink: #241b1d;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+.brand {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 34px;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+.welcome-page {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 5%;
+  background: #f5f1e9;
+}
+.welcome-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255, 250, 239, 0.4), rgba(255, 250, 239, 0.4)),
+    url("../assets/zebra-pattern.jpg") center/cover no-repeat;
+  animation: zebra-appear 1.2s ease-out both;
+}
+.welcome-header,
+.welcome-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #171414;
+}
+.welcome-header {
+  height: 90px;
+}
+.welcome-header .brand {
+  color: #e31837;
+  animation: idea-appear 0.7s ease-out both;
+}
+.welcome-top-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  animation: idea-appear 0.7s 0.2s ease-out both;
+}
+.welcome-main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 50px 0;
+}
+.welcome-content {
+  width: min(850px, 95vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 25px;
+}
+.welcome-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  animation: idea-appear 0.65s 0.2s ease-out both;
+}
+.welcome-title h1 {
+  font-size: clamp(52px, 9vw, 105px);
+  line-height: 0.98;
+  letter-spacing: -5px;
+  margin: 0;
+  font-weight: 700;
+  color: #e31837;
+}
+.welcome-title h1:first-child {
+  animation: idea-appear 0.75s 0.35s ease-out both;
+}
+.welcome-title .welcome-title-accent {
+  color: #171414;
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  margin-top: 10px;
+  animation: idea-appear 0.75s 0.6s ease-out both;
+}
+.welcome-title-accent span {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+.welcome-title-accent span:hover {
+  transform: rotate(-4deg);
+}
+.welcome-content > p {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 0 1px 5px rgba(255, 255, 255, 0.8);
+  animation: idea-appear 0.65s 0.85s ease-out both;
+}
+.welcome-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: idea-appear 0.65s 1.05s ease-out both;
+}
+.welcome-button,
+.welcome-login {
+  min-width: 155px;
+  padding: 17px 25px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  background: transparent;
+  color: #171414;
+  border: 1px solid #171414;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    border-color 0.25s,
+    transform 0.25s;
+}
+.welcome-button:hover,
+.welcome-login:hover {
+  background: #e31837;
+  border-color: #e31837;
+  color: #fff;
+  transform: translateY(-2px);
+}
+.welcome-footer {
+  padding: 22px 0 27px;
+  font-size: 9px;
+  letter-spacing: 1px;
+  animation: idea-appear 0.65s 1.2s ease-out both;
+}
+@keyframes zebra-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes idea-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.auth-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 5% 30px;
+  isolation: isolate;
+  background: #f5f1e9;
+}
+.auth-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255, 250, 239, 0.4), rgba(255, 250, 239, 0.4)),
+    url("../assets/zebra-pattern.jpg") center/cover no-repeat;
+  pointer-events: none;
+}
+.auth-page::after {
+  content: "A little drama never hurt.";
+  position: fixed;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  letter-spacing: 2px;
+  color: #e31837;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.auth-header,
+.auth-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.auth-header {
+  height: 90px;
+  flex-shrink: 0;
+}
+.auth-header .brand {
+  color: #e31837;
+}
+.auth-header > span,
+.auth-footer {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #393033;
+}
+.auth-main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 45px 0;
+}
+.auth-card {
+  width: min(540px, 100%);
+  min-height: 650px;
+  height: auto;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 45px 42px;
+  position: relative;
+  border: none;
+  border-radius: 36px;
+  background: #ffffff;
+}
+.auth-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #393033;
+  letter-spacing: 1.5px;
+}
+.auth-card-top span:last-child:not(:first-child) {
+  display: none;
+}
+.auth-heading {
+  margin: 25px 0 35px;
+}
+.auth-eyebrow {
+  color: #e31837;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+}
+.auth-heading h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(40px, 4.5vw, 52px);
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -2px;
+  margin: 20px 0 25px;
+}
+.auth-heading p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #30282b;
+  max-width: 360px;
+  margin: 0;
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.form-field label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+.form-field input {
+  width: 100%;
+  min-height: 54px;
+  background: #fff;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 17px 22px;
+  font-size: 13px;
+  outline: none;
+}
+.form-field input:focus {
+  border-color: #e31837;
+}
+.password-field {
+  position: relative;
+}
+.password-field input {
+  padding-right: 62px;
+}
+.password-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #393033;
+}
+.password-toggle:hover {
+  color: #e31837;
+}
+.password-toggle:focus-visible {
+  outline: 2px solid #e31837;
+}
+.auth-submit,
+.solid-button,
+.workspace-action {
+  border: 0;
+  background: #e31837;
+  color: #fff;
+  padding: 15px 18px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+.auth-submit:hover,
+.solid-button:hover,
+.workspace-action:hover {
+  background: #c91430;
+  transform: translateY(-2px);
+}
+.auth-submit:disabled,
+.solid-button:disabled,
+.workspace-action:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+.auth-submit:disabled:hover,
+.solid-button:disabled:hover,
+.workspace-action:disabled:hover {
+  background: #e31837;
+  transform: none;
+}
+.auth-page .auth-submit {
+  width: 100%;
+  min-height: 54px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  margin-top: 8px;
+}
+.form-error {
+  color: #b00020;
+  font-size: 12px;
+  margin: 0;
+}
+.auth-switch {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 28px;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+}
+.auth-switch span {
+  color: #393033;
+}
+.auth-switch a {
+  color: #e31837;
+  font-weight: 700;
+}
+.auth-footer {
+  padding-top: 24px;
+}

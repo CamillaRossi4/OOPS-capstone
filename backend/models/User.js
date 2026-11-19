@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -16,7 +15,14 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: function () {
+        return !this.googleId;
+      },
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
     },
     resetPasswordToken: {
       type: String,
@@ -29,5 +35,4 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-
 module.exports = mongoose.model("User", userSchema);

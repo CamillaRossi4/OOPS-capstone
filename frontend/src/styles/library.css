@@ -1,0 +1,471 @@
+.workspace-page .project-card .project-cover,
+.workspace-page .project-card-link .project-cover {
+  border-radius: 2px;
+}
+.workspace-page .project-info {
+  border-top: 1px solid rgba(0, 0, 0, 0.13);
+  padding-top: 17px;
+}
+.workspace-page .project-info h3 {
+  letter-spacing: -0.6px;
+}
+.workspace-page .projects-toolbar input {
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+  background: transparent;
+}
+.workspace-page .dossier-header h1 {
+  letter-spacing: -1.8px;
+}
+.workspace-page .dossier-idea {
+  border-radius: 3px;
+  box-shadow: none;
+}
+.workspace-page .dossier-numbers,
+.workspace-page .overview-stats {
+  border-top: 1px solid rgba(0, 0, 0, 0.16);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+  padding: 18px 0;
+}
+.workspace-page .overview-stats > div,
+.workspace-page .dossier-numbers > div {
+  border-radius: 0;
+  box-shadow: none;
+}
+.workspace-page .overview-stats strong,
+.workspace-page .dossier-numbers strong {
+  font-size: clamp(30px, 4vw, 52px);
+  letter-spacing: -1.5px;
+}
+.workspace-page .thought-panel {
+  border-radius: 3px;
+  box-shadow: none;
+}
+.workspace-page .thought-panel h2 {
+  letter-spacing: -1.4px;
+  line-height: 1.08;
+}
+.editorial-recent-list {
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+.editorial-recent-list .idea-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+.editorial-recent-list .idea-row > span:nth-child(2) {
+  flex: 1;
+  font-weight: 600;
+}
+.editorial-row-index {
+  font-size: 11px;
+  color: var(--strong);
+  font-weight: 700;
+}
+.editorial-dossier-modal {
+  width: min(1100px, calc(100vw - 56px));
+  max-height: min(86vh, 850px);
+  padding: clamp(25px, 3.3vw, 46px);
+  border-radius: 4px;
+  overflow-y: auto;
+}
+.editorial-dossier-modal .idea-modal-top {
+  margin-bottom: 30px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+.editorial-dossier-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(30px, 4vw, 65px);
+}
+.editorial-dossier-main {
+  min-width: 0;
+}
+.editorial-dossier-main h2 {
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  margin: 15px 0 22px;
+  overflow-wrap: anywhere;
+}
+.editorial-dossier-description {
+  font-size: 14px;
+  line-height: 1.8;
+  margin: 0 0 30px;
+  white-space: pre-wrap;
+}
+.editorial-dossier-main .idea-modal-meta {
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 16px;
+  padding: 15px 0;
+}
+.editorial-dossier-main .idea-modal-meta span {
+  line-height: 1.5;
+}
+.editorial-dossier-main .idea-modal-actions {
+  border-top: 1px solid rgba(0, 0, 0, 0.13);
+  padding-top: 20px;
+  margin-top: 20px;
+  gap: 12px 22px;
+}
+.editorial-dossier-aside {
+  min-width: 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.14);
+  padding-left: clamp(25px, 3vw, 48px);
+}
+.editorial-aside-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid rgba(30, 25, 25, 0.12);
+  padding: 0 0 18px;
+}
+.editorial-history-number {
+  line-height: 1;
+  font-size: clamp(36px, 4vw, 54px);
+  letter-spacing: -2px;
+  color: var(--workspace-ink);
+  font-weight: 500;
+}
+.editorial-history-intro p {
+  font-size: 13px;
+  line-height: 1.75;
+  max-width: 270px;
+  margin: 15px 0 20px;
+}
+.editorial-edition {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+}
+.editorial-edition-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 20px 0;
+  text-align: left;
+  color: var(--workspace-ink);
+  cursor: pointer;
+}
+.editorial-edition-button:hover {
+  color: var(--strong);
+}
+.editorial-edition-number {
+  min-width: 35px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--workspace-ink);
+}
+.editorial-edition-label {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.editorial-edition-label strong {
+  font-size: 14px;
+}
+.editorial-edition-label small {
+  font-size: 11px;
+  line-height: 1.4;
+  opacity: 0.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.editorial-edition-symbol {
+  font-size: 20px;
+  color: var(--strong);
+}
+.editorial-edition-content {
+  padding: 0 0 21px 47px;
+}
+.editorial-edition-content p {
+  font-size: 13px;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  margin: 0;
+}
+.library-collection {
+  border-radius: 2px;
+}
+.library-collection.is-active,
+.library-collection.is-active:not(:hover) {
+  background: transparent;
+  border-color: rgba(30, 25, 25, 0.15);
+  box-shadow: none;
+}
+.library-collection:hover,
+.library-collection.is-active:hover {
+  background: var(--soft);
+  border-color: var(--strong);
+  box-shadow: inset 0 0 0 1px var(--strong);
+}
+.library-index-row:hover {
+  background: var(--soft);
+}
+@media (max-width: 760px) {
+  .editorial-dossier-modal {
+    width: calc(100vw - 22px);
+    max-height: 92vh;
+    padding: 22px;
+    border-radius: 3px;
+  }
+  .editorial-dossier-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .editorial-dossier-aside {
+    border-left: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    padding-left: 0;
+    padding-top: 24px;
+  }
+  .editorial-dossier-main h2 {
+    font-size: 30px;
+  }
+  .editorial-dossier-main .idea-modal-meta {
+    grid-template-columns: 100px minmax(0, 1fr);
+  }
+  .workspace-page .content-heading h2 {
+    font-size: 27px;
+  }
+}
+.editorial-dossier-modal .idea-modal-top,
+.editorial-aside-top {
+  border-color: rgba(30, 25, 25, 0.12);
+}
+.editorial-edition-button:focus-visible,
+.library-collection:focus-visible {
+  outline: 2px solid var(--workspace-ink);
+  outline-offset: 3px;
+}
+.editorial-edition-button[aria-expanded="true"] {
+  color: var(--workspace-ink);
+}
+.workspace-page .thought-panel,
+.workspace-page .dossier-header,
+.workspace-page .empty-state {
+  border-radius: 3px;
+}
+.workspace-page .project-grid {
+  row-gap: 30px;
+}
+.workspace-page .project-info {
+  background: transparent;
+}
+.workspace-page .project-card:hover .project-cover,
+.workspace-page .project-card-link:hover .project-cover {
+  outline: 1px solid var(--strong);
+  outline-offset: -1px;
+}
+.settings-panel {
+  max-width: 760px;
+  border-radius: 3px;
+  background: transparent;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 12px 0;
+  gap: 0;
+}
+.settings-row {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.settings-row:last-child {
+  border-bottom: 0;
+}
+.settings-panel strong {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .settings-row {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+  .editorial-history-number {
+    font-size: 42px;
+  }
+}
+.app-layout .thought-panel h2 {
+  font-size: 17px;
+  margin: 6px 0;
+}
+.breakpoint-analysis {
+  margin-top: 24px;
+}
+.editorial-history-intro h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(24px, 2.5vw, 34px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: var(--workspace-ink);
+}
+.editorial-history-intro {
+  padding: 22px 0;
+}
+.editorial-dossier-modal .editorial-dossier-main h2 {
+  color: var(--workspace-ink);
+}
+.editorial-dossier-modal .editorial-dossier-aside {
+  background: color-mix(in srgb, var(--soft) 28%, white);
+}
+.editorial-edition-button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--strong) 45%, transparent);
+  outline-offset: -2px;
+}
+.editorial-edition-button:focus:not(:focus-visible) {
+  outline: none;
+}
+.dossier-ideas-index {
+  display: block;
+}
+.dossier-ideas-index .dossier-idea {
+  min-height: 0;
+  border-radius: 0;
+  background: transparent;
+  border-bottom: 1px solid rgba(30, 25, 25, 0.15);
+}
+.dossier-ideas-index .dossier-idea h3 {
+  margin: 8px 0;
+}
+.dossier-ideas-index .dossier-idea p {
+  max-width: 800px;
+}
+.settings-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 4vw, 64px);
+}
+.settings-section {
+  border-top: 1px solid rgba(30, 25, 25, 0.2);
+  padding-top: 24px;
+}
+.settings-section h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(26px, 3vw, 38px);
+  margin: 12px 0 8px;
+}
+.settings-section > p {
+  font-size: 13px;
+  opacity: 0.7;
+  margin: 0 0 25px;
+}
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.settings-form label {
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-top: 12px;
+}
+.settings-form input {
+  width: 100%;
+  border: 1px solid rgba(30, 25, 25, 0.2);
+  background: white;
+  border-radius: 4px;
+  padding: 14px 15px;
+  outline: none;
+}
+.settings-form input:focus {
+  border-color: var(--strong);
+}
+.settings-form .solid-button {
+  margin-top: 14px;
+}
+.settings-message {
+  font-size: 12px;
+  margin: 5px 0;
+}
+.settings-footer-actions {
+  display: flex;
+  gap: 28px;
+  margin-top: 44px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(30, 25, 25, 0.2);
+}
+.settings-footer-actions a,
+.settings-footer-actions button {
+  color: var(--strong);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+@media (max-width: 760px) {
+  .settings-layout {
+    grid-template-columns: 1fr;
+  }
+}
+.app-layout .workspace-page {
+  padding-top: 38px;
+  padding-bottom: 76px;
+}
+.app-layout .workspace-heading {
+  margin-bottom: 30px;
+  padding-bottom: 23px;
+}
+.workspace-page .content-heading {
+  margin-top: 42px;
+  margin-bottom: 20px;
+}
+.workspace-page .idea-heading {
+  margin-top: 46px;
+}
+.app-layout .overview-stats {
+  margin-bottom: 28px;
+}
+.app-layout .overview-stats > div {
+  padding: 20px 23px;
+}
+.app-layout .overview-stats strong {
+  font-size: 30px;
+}
+.app-layout .projects-toolbar {
+  margin-bottom: 26px;
+  padding: 17px 0 22px;
+}
+.app-layout .project-grid {
+  gap: 24px 22px;
+}
+.app-layout .project-cover {
+  aspect-ratio: 1.7 / 1;
+}
+.app-layout .project-info {
+  padding: 13px 3px 17px;
+}
+.editorial-recent-list .idea-row {
+  padding: 17px 8px;
+}
+.thought-panel {
+  background: var(--soft);
+  border-radius: 16px;
+  margin-top: 38px;
+  margin-bottom: 18px;
+  padding: 22px 28px;
+}
+@media (max-width: 760px) {
+  .app-layout .project-cover {
+    aspect-ratio: 1.4 / 1;
+  }
+}

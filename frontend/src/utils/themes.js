@@ -1,0 +1,38 @@
+export const themes = {
+  original: {
+    name: "Cherry Pop",
+    accent: "#F8DDE6",
+    strong: "#E31837",
+    soft: "#FFF0F3",
+    background: "#FFFCF9",
+    ink: "#241B1D",
+    fur: "pink",
+  },
+  pistachio: {
+    name: "Pistachio Club",
+    accent: "#D9EDAD",
+    strong: "#D73B49",
+    soft: "#F0F6D9",
+    background: "#FFFDF7",
+    ink: "#302C29",
+    fur: "pistachio",
+  },
+  blue: {
+    name: "Blue Crush",
+    accent: "#B8D7EF",
+    strong: "#D92D42",
+    soft: "#EAF3FA",
+    background: "#FFFCF7",
+    ink: "#282B36",
+    fur: "blue",
+  },
+  lavender: {
+    name: "Lavender Drama",
+    accent: "#DCC7F0",
+    strong: "#793E68",
+    soft: "#F2E9F8",
+    background: "#FFFCFF",
+    ink: "#302534",
+    fur: "lavender",
+  },
+};

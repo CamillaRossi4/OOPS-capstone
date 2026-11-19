@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const feedbackSchema = new mongoose.Schema(
   {
     owner: {
@@ -15,6 +14,7 @@ const feedbackSchema = new mongoose.Schema(
     comment: {
       type: String,
       required: true,
+      trim: true,
     },
     category: {
       type: String,
@@ -23,5 +23,4 @@ const feedbackSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-
 module.exports = mongoose.model("Feedback", feedbackSchema);

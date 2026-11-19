@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const passport = require("passport");
 const authRoutes = require("./routes/auth");
 const authenticate = require("./middleware/authenticate");
 const projectsRoutes = require("./routes/projects");
@@ -29,6 +30,7 @@ app.use(
   }),
 );
 app.use(express.json());
+app.use(passport.initialize());
 app.use("/auth", authRoutes);
 app.get("/", (req, res) => {
   res.send("OOPS! API is running.");
