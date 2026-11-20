@@ -350,23 +350,57 @@ router.put("/:id", async (req, res) => {
 });
 router.delete("/:id", async (req, res) => {
   try {
-    const idea = await Idea.findOne({
+    if (!mongoose.isValidObjectId(req.params.id)) {
+      return res.status(404).json({ message: "Idea not found" });
+    }
+    let current = await Idea.findOne({
       _id: req.params.id,
       owner: req.user._id,
     });
-    if (!idea) {
+    if (!current) {
       return res.status(404).json({ message: "Idea not found" });
     }
-    for (const image of idea.images) {
-      const result = await cloudinary.uploader.destroy(image.publicId);
-      if (result.result !== "ok" && result.result !== "not found") {
-        return res.status(502).json({
-          message: "Could not remove the idea images.",
-        });
+    const visited = new Set();
+    while (current.previousRevision) {
+      if (visited.has(String(current._id))) {
+        return res.status(400).json({ message: "Invalid revision history." });
+      }
+      visited.add(String(current._id));
+      const previous = await Idea.findOne({
+        _id: current.previousRevision,
+        owner: req.user._id,
+      });
+      if (!previous) break;
+      current = previous;
+    }
+    const revisions = [];
+    visited.clear();
+    while (current) {
+      if (visited.has(String(current._id))) {
+        return res.status(400).json({ message: "Invalid revision history." });
+      }
+      visited.add(String(current._id));
+      revisions.push(current);
+      current = await Idea.findOne({
+        previousRevision: current._id,
+        owner: req.user._id,
+      });
+    }
+    for (const revision of revisions) {
+      for (const image of revision.images || []) {
+        const result = await cloudinary.uploader.destroy(image.publicId);
+        if (result.result !== "ok" && result.result !== "not found") {
+          return res
+            .status(502)
+            .json({ message: "Could not remove the idea images." });
+        }
       }
     }
-    await Idea.deleteOne({ _id: idea._id, owner: req.user._id });
-    res.json({ message: "Idea deleted" });
+    await Idea.deleteMany({
+      _id: { $in: revisions.map((revision) => revision._id) },
+      owner: req.user._id,
+    });
+    res.json({ message: "Idea and revisions deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -20,6 +20,7 @@ export default function ProjectDossier({ token }) {
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showDeleteBlocked, setShowDeleteBlocked] = useState(false);
   const [projectImageBusy, setProjectImageBusy] = useState(false);
   const [projectImageError, setProjectImageError] = useState("");
   const [projectPreviewImage, setProjectPreviewImage] = useState(null);
@@ -104,7 +105,11 @@ export default function ProjectDossier({ token }) {
       setShowDeleteConfirm(false);
       navigate("/app/projects");
     } catch (error) {
-      setMessage(error.message);
+      if (error.message.includes("Delete the project's ideas before deleting the project.")) {
+        setShowDeleteBlocked(true);
+      } else {
+        setMessage(error.message);
+      }
       setShowDeleteConfirm(false);
       setDeleting(false);
     }
@@ -132,12 +137,20 @@ export default function ProjectDossier({ token }) {
     <main className="workspace-page dossier-page">
       <Link className="dossier-back" to={isCompleted(project) ? "/app/archive" : "/app/projects"}>← {t("BACK TO")} {t(isCompleted(project) ? "THE ARCHIVE" : "PROJECTS")}</Link>
       <header className="dossier-header"><span className="small-label"><Translate>OOPS! / PROJECT DOSSIER</Translate></span><h1>{project.title}</h1><p>{project.client || project.category}</p><span className="dossier-status">{t(project.status || "In progress")}</span></header>
-      <div className="dossier-status-actions"><button className="workspace-action" type="button" onClick={toggleCompleted} disabled={updatingStatus || deleting}>{t(updatingStatus ? "SAVING..." : isCompleted(project) ? "REOPEN PROJECT ↗" : "MARK AS COMPLETED ↗")}</button><button className="dossier-delete-button" type="button" onClick={() => setShowDeleteConfirm(true)} disabled={deleting || updatingStatus}>{t(deleting ? "PLEASE WAIT..." : "DELETE PROJECT")}</button></div>
+      <div className="dossier-status-actions"><button className="workspace-action" type="button" onClick={toggleCompleted} disabled={updatingStatus || deleting}>{t(updatingStatus ? "SAVING..." : isCompleted(project) ? "REOPEN PROJECT ↗" : "MARK AS COMPLETED ↗")}</button><button className="dossier-delete-button" type="button" onClick={() => { if (ideas.loading || ideas.error) { setMessage(t("Please wait for the Idea Library to load.")); } else if (projectIdeas.length) { setShowDeleteBlocked(true); } else { setShowDeleteConfirm(true); } }} disabled={deleting || updatingStatus}>{t(deleting ? "PLEASE WAIT..." : "DELETE PROJECT")}</button></div>
+        {showDeleteBlocked && <div className="oops-delete-backdrop" onClick={() => setShowDeleteBlocked(false)}>
+          <section className="oops-delete-modal" role="alertdialog" aria-modal="true" aria-labelledby="oops-blocked-title" aria-describedby="oops-blocked-description" onClick={event => event.stopPropagation()}>
+            <div className="oops-delete-top"><span>OOPS! / {t("ONE LAST THING")}</span><button type="button" aria-label={t("CLOSE")} onClick={() => setShowDeleteBlocked(false)}>×</button></div>
+            <h2 id="oops-blocked-title">{t("Not so fast, darling.")}</h2>
+            <p id="oops-blocked-description">{t("This project still has ideas worth keeping. Clear its Idea Library before saying goodbye.")}</p>
+            <div className="oops-delete-actions"><button type="button" className="oops-delete-confirm" onClick={() => setShowDeleteBlocked(false)}>{t("GOT IT ↗")}</button></div>
+          </section>
+        </div>}
       {showDeleteConfirm && <div className="oops-delete-backdrop" onClick={() => !deleting && setShowDeleteConfirm(false)}>
         <section className="oops-delete-modal" role="alertdialog" aria-modal="true" aria-labelledby="oops-delete-title" aria-describedby="oops-delete-description" onClick={event => event.stopPropagation()}>
           <div className="oops-delete-top"><span>OOPS! / {t("ONE LAST THING")}</span><button type="button" aria-label={t("CLOSE")} onClick={() => setShowDeleteConfirm(false)} disabled={deleting}>×</button></div>
           <h2 id="oops-delete-title">{t("Are we really saying goodbye?")}</h2>
-          <p id="oops-delete-description">{t("You're about to delete")} <strong>“{project.title}”</strong>. {t("This action cannot be undone.")} {t("Projects containing ideas cannot be deleted.")}</p>
+          <p id="oops-delete-description">{t("You're about to delete")} <strong>“{project.title}”</strong>. {t("This action cannot be undone.")}</p>
           <div className="oops-delete-actions"><button type="button" className="oops-delete-cancel" onClick={() => setShowDeleteConfirm(false)} disabled={deleting}>{t("KEEP PROJECT")}</button><button type="button" className="oops-delete-confirm" onClick={deleteProject} disabled={deleting}>{t(deleting ? "PLEASE WAIT..." : "YES, DELETE IT ↗")}</button></div>
         </section>
       </div>}
@@ -147,7 +160,7 @@ export default function ProjectDossier({ token }) {
         .dossier-delete-button:disabled{opacity:.5;cursor:not-allowed}
         .dossier-status-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
         .oops-delete-backdrop{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(30,20,24,.55)}
-        .oops-delete-modal{box-sizing:border-box;width:min(100%,520px);padding:36px;background:var(--soft,#FFF0F3);color:var(--workspace-ink,#241B1D);box-shadow:0 24px 70px rgba(25,12,18,.2)}
+        .oops-delete-modal{box-sizing:border-box;width:min(100%,520px);padding:36px;border-radius:18px;background:var(--soft,#FFF0F3);color:var(--workspace-ink,#241B1D);box-shadow:0 24px 70px rgba(25,12,18,.2)}
         .oops-delete-top{display:flex;align-items:center;justify-content:space-between;gap:16px;color:var(--strong,#E31837);font-size:10px;font-weight:700;letter-spacing:.12em}
         .oops-delete-top button{border:0;background:transparent;color:inherit;font-size:27px;line-height:1;cursor:pointer}
         .oops-delete-modal h2{margin:32px 0 16px;font-size:clamp(28px,4vw,39px);font-weight:700;line-height:1.1;letter-spacing:-.04em}

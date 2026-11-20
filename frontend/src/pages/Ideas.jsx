@@ -388,7 +388,7 @@ export default function Ideas({ token }) {
                   {selected.project?._id && <Link className="idea-text-button" to={`/app/projects/${selected.project._id}`} onClick={() => setSelected(null)}><Translate>OPEN PROJECT ↗</Translate></Link>}
                   <button type="button" className="idea-text-button" disabled={historyLoading} onClick={() => { if (historyOpen) { setHistoryOpen(false); setExpandedVersion(null); } else { setHistoryOpen(true); loadHistory(selected); } }}>{t(historyLoading ? "LOADING..." : historyOpen ? "HIDE HISTORY ↑" : "VERSION HISTORY ↗")}</button>
                   {(selected.revisionNumber || 1) === 1 && !previousIds.has(String(selected._id)) && <button className="idea-text-button" onClick={() => startEdit(selected)}><Translate>EDIT ↗</Translate></button>}
-                  {(selected.revisionNumber || 1) === 1 && !previousIds.has(String(selected._id)) && <button className="idea-text-button danger" onClick={() => { setImageError(""); setDeleteIdeaConfirm(selected); }}><Translate>DELETE</Translate></button>}
+                  {<button className="idea-text-button danger" onClick={() => { setImageError(""); setDeleteIdeaConfirm(selected); }}><Translate>DELETE</Translate></button>}
                 </div>
               </div>
               <aside className="editorial-dossier-aside">
@@ -422,14 +422,14 @@ export default function Ideas({ token }) {
             </div>
           </div>}
           {(deleteImage || deleteIdeaConfirm) && <div role="presentation" onClick={event => { event.stopPropagation(); if (!imageBusy) { setDeleteImage(null); setDeleteIdeaConfirm(null); setImageError(""); } }} style={{ position: "fixed", inset: 0, zIndex: 1002, display: "grid", placeItems: "center", padding: 20, background: "rgba(35, 18, 25, 0.58)" }}>
-            <section role="alertdialog" aria-modal="true" aria-label={t("ONE LAST THING")} onClick={event => event.stopPropagation()} style={{ width: "min(430px, 100%)", background: "#f8dde6", padding: "35px 30px", boxShadow: "0 20px 70px #0003", color: "#241b1d" }}>
+            <section role="alertdialog" aria-modal="true" aria-label={t("ONE LAST THING")} onClick={event => event.stopPropagation()} style={{ width: "min(430px, 100%)", background: "#f8dde6", padding: "35px 30px", borderRadius: 18, boxShadow: "0 20px 70px #0003", color: "#241b1d" }}>
               <span className="small-label">OOPS! / {t("ONE LAST THING")}</span>
               <h3 style={{ fontSize: 30, lineHeight: 1.1, margin: "18px 0" }}>{t("Are we really saying goodbye?")}</h3>
-              <p style={{ marginBottom: 24 }}>{deleteIdeaConfirm ? `${t("You're about to delete")} “${deleteIdeaConfirm.title}”. ${t("This action cannot be undone.")}` : t("Remove this image from the visual file? This action cannot be undone.")}</p>
+              <p style={{ marginBottom: 24 }}>{deleteIdeaConfirm ? `${t("You're about to delete")} “${deleteIdeaConfirm.title}” ${t("and all its revisions.")} ${t("This action cannot be undone.")}` : t("Remove this image from the visual file? This action cannot be undone.")}</p>
               {imageError && <p className="state-message" role="alert">{imageError}</p>}
               <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                <button type="button" disabled={imageBusy} onClick={() => { setDeleteImage(null); setDeleteIdeaConfirm(null); setImageError(""); }} style={{ padding: "13px 17px", border: "1px solid #241b1d", background: "transparent", cursor: "pointer" }}>{t(deleteIdeaConfirm ? "KEEP IDEA" : "KEEP IMAGE")}</button>
-                <button type="button" disabled={imageBusy} onClick={() => deleteIdeaConfirm ? deleteIdea(deleteIdeaConfirm) : removeIdeaImage()} style={{ padding: "13px 17px", border: 0, background: "#e31837", color: "white", cursor: "pointer" }}>{imageBusy ? t("PLEASE WAIT...") : t("YES, DELETE IT ↗")}</button>
+                <button type="button" disabled={imageBusy} onClick={() => { setDeleteImage(null); setDeleteIdeaConfirm(null); setImageError(""); }} style={{ padding: "13px 17px", border: "1px solid #241b1d", borderRadius: 999, background: "transparent", cursor: "pointer" }}>{t(deleteIdeaConfirm ? "KEEP IDEA" : "KEEP IMAGE")}</button>
+                <button type="button" disabled={imageBusy} onClick={() => deleteIdeaConfirm ? deleteIdea(deleteIdeaConfirm) : removeIdeaImage()} style={{ padding: "13px 17px", border: 0, borderRadius: 999, background: "#e31837", color: "white", cursor: "pointer" }}>{imageBusy ? t("PLEASE WAIT...") : t("YES, DELETE IT ↗")}</button>
               </div>
             </section>
           </div>}
