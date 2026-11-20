@@ -269,6 +269,7 @@ function Workspace({ session, logout }) {
     const saved = localStorage.getItem("oops-theme");
     return themes[saved] ? saved : "original";
   });
+  const [sidebarTexture, setSidebarTexture] = useState(() => localStorage.getItem("oops-sidebar-texture") !== "false");
   function updateSessionUser(updatedUser) {
     const nextSession = { ...session, user: { ...session.user, ...updatedUser } };
     localStorage.setItem("oops-session", JSON.stringify(nextSession));
@@ -278,8 +279,11 @@ function Workspace({ session, logout }) {
   useEffect(() => {
     localStorage.setItem("oops-theme", theme);
   }, [theme]);
+  useEffect(() => {
+    localStorage.setItem("oops-sidebar-texture", String(sidebarTexture));
+  }, [sidebarTexture]);
   return (
-    <div className="app-layout" style={{ "--accent": selected.accent, "--strong": selected.strong, "--soft": selected.soft, "--workspace-bg": selected.background, "--workspace-ink": selected.ink, "--sidebar-fur": `url(${ { pink: pinkFur, pistachio: pistachioFur, blue: blueFur, lavender: lavenderFur }[selected.fur] })` }}>
+    <div className="app-layout" style={{ "--accent": selected.accent, "--strong": selected.strong, "--soft": selected.soft, "--workspace-bg": selected.background, "--workspace-ink": selected.ink, "--sidebar-fur": sidebarTexture ? `url(${ { pink: pinkFur, pistachio: pistachioFur, blue: blueFur, lavender: lavenderFur }[selected.fur] })` : "none" }}>
       <aside className="sidebar">
         <Link to="/app" className="brand">oops!</Link>
         <div className="sidebar-content">
@@ -312,7 +316,7 @@ function Workspace({ session, logout }) {
           <Route path="breakpoint" element={<Breakpoint token={session.token} />} />
           <Route path="rediscover" element={<Rediscover token={session.token} />} />
           <Route path="archive" element={<Archive token={session.token} />} />
-          <Route path="appearance" element={<Appearance theme={theme} setTheme={setTheme} />} />
+          <Route path="appearance" element={<Appearance theme={theme} setTheme={setTheme} sidebarTexture={sidebarTexture} setSidebarTexture={setSidebarTexture} />} />
           <Route path="settings" element={<Settings user={session.user} token={session.token} logout={logout} onProfileSaved={updatedUser => updateSessionUser(updatedUser)} />} />
           <Route path="*" element={<Navigate to="/app" replace />} />
         </Routes>

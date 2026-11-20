@@ -35,4 +35,22 @@ export const themes = {
     ink: "#302534",
     fur: "lavender",
   },
+  editor: {
+    name: "The Editor",
+    accent: "#FFFFFF",
+    strong: "#65717D",
+    soft: "#DDE3E8",
+    background: "#F3F4F5",
+    ink: "#252A30",
+    fur: null,
+  },
+  issue: {
+    name: "The Issue",
+    accent: "#FFFFFF",
+    strong: "#D92F4B",
+    soft: "#FFFFFF",
+    background: "#FAFAFA",
+    ink: "#171717",
+    fur: null,
+  },
 };

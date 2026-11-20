@@ -49,13 +49,14 @@ button {
 }
 .welcome-page::before {
   content: "";
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: -1;
   background:
     linear-gradient(rgba(255, 250, 239, 0.4), rgba(255, 250, 239, 0.4)),
     url("../assets/zebra-pattern.jpg") center/cover no-repeat;
   animation: zebra-appear 1.2s ease-out both;
+  pointer-events: none;
 }
 .welcome-header,
 .welcome-footer {
