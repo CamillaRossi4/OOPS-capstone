@@ -469,3 +469,50 @@
     aspect-ratio: 1.4 / 1;
   }
 }
+@media (max-width: 760px) {
+  .idea-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    width: 100%;
+    height: 100dvh;
+    padding: 12px;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .idea-modal.editorial-dossier-modal {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    max-height: calc(100dvh - 24px);
+    margin: 0;
+    padding: 20px 16px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .editorial-dossier-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+  .editorial-dossier-main,
+  .editorial-dossier-aside,
+  .editorial-dossier-modal .visual-file,
+  .editorial-dossier-modal .visual-file-grid,
+  .editorial-dossier-modal .visual-file-add,
+  .editorial-dossier-modal .idea-modal-actions {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .editorial-dossier-main .idea-modal-meta {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+  .editorial-dossier-description,
+  .editorial-dossier-main .idea-modal-meta span,
+  .editorial-edition-content {
+    overflow-wrap: anywhere;
+  }
+}

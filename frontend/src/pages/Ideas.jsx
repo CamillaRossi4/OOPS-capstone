@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { API_URL, api } from "../api";
 import { useData } from "../hooks/useData";
@@ -346,7 +347,7 @@ export default function Ideas({ token }) {
           </button>)}
         </div>
       </section>
-      {selected && (
+      {selected && createPortal(
         <div className="idea-modal-backdrop" onClick={() => setSelected(null)}>
           <section className="idea-modal editorial-dossier-modal" role="dialog" aria-modal="true" aria-label={selected.title} onClick={event => event.stopPropagation()}>
             <div className="idea-modal-top"><span className="small-label"><Translate>OOPS! / THE IDEA DOSSIER</Translate></span><button className="idea-text-button" type="button" onClick={() => setSelected(null)} aria-label={t("Close idea")}>{t("CLOSE ×")}</button></div>
@@ -379,21 +380,21 @@ export default function Ideas({ token }) {
                   {(selected.images || []).length === 0 && <p className="visual-file-empty">{t("A place for the images behind the idea.")}</p>}
                   <label className="visual-file-add">
                     <span className="visual-file-add-copy"><strong>{t(imageBusy ? "UPLOADING..." : "+ ADD IMAGE")}</strong><small>{t("UPLOAD FROM YOUR COMPUTER · JPG, PNG, WEBP")}</small></span>
-                    <span className="visual-file-add-arrow" aria-hidden="true">↗</span>
+                    
                     <input type="file" accept="image/jpeg,image/png,image/webp" multiple disabled={imageBusy || (selected.images || []).length >= 10} onChange={addIdeaImages} />
                   </label>
                   {imageError && <p className="state-message" role="alert">{imageError}</p>}
                 </section>
                 <div className="idea-modal-actions">
-                  {selected.project?._id && <Link className="idea-text-button" to={`/app/projects/${selected.project._id}`} onClick={() => setSelected(null)}><Translate>OPEN PROJECT ↗</Translate></Link>}
-                  <button type="button" className="idea-text-button" disabled={historyLoading} onClick={() => { if (historyOpen) { setHistoryOpen(false); setExpandedVersion(null); } else { setHistoryOpen(true); loadHistory(selected); } }}>{t(historyLoading ? "LOADING..." : historyOpen ? "HIDE HISTORY ↑" : "VERSION HISTORY ↗")}</button>
-                  {(selected.revisionNumber || 1) === 1 && !previousIds.has(String(selected._id)) && <button className="idea-text-button" onClick={() => startEdit(selected)}><Translate>EDIT ↗</Translate></button>}
+                  {selected.project?._id && <Link className="idea-text-button" to={`/app/projects/${selected.project._id}`} onClick={() => setSelected(null)}><Translate>OPEN PROJECT</Translate></Link>}
+                  <button type="button" className="idea-text-button" disabled={historyLoading} onClick={() => { if (historyOpen) { setHistoryOpen(false); setExpandedVersion(null); } else { setHistoryOpen(true); loadHistory(selected); } }}>{t(historyLoading ? "LOADING..." : historyOpen ? "HIDE HISTORY ↑" : "VERSION HISTORY")}</button>
+                  {(selected.revisionNumber || 1) === 1 && !previousIds.has(String(selected._id)) && <button className="idea-text-button" onClick={() => startEdit(selected)}><Translate>EDIT</Translate></button>}
                   {<button className="idea-text-button danger" onClick={() => { setImageError(""); setDeleteIdeaConfirm(selected); }}><Translate>DELETE</Translate></button>}
                 </div>
               </div>
               <aside className="editorial-dossier-aside">
                 <div className="editorial-aside-top"><span className="small-label"><Translate>THE REVISION ARCHIVE</Translate></span><span className="small-label">{historyOpen ? `${history.length} ${t("EDITIONS")}` : t("THE STORY SO FAR")}</span></div>
-                {!historyOpen && <div className="editorial-history-intro"><h3><Translate>Every idea has a backstory.</Translate></h3><p><Translate>Explore earlier editions, notes and the changes that brought this idea here.</Translate></p><button type="button" className="idea-text-button" onClick={() => { setHistoryOpen(true); loadHistory(selected); }}><Translate>EXPLORE THE EDITIONS ↗</Translate></button></div>}
+                {!historyOpen && <div className="editorial-history-intro"><h3><Translate>Every idea has a backstory.</Translate></h3><p><Translate>Explore earlier editions, notes and the changes that brought this idea here.</Translate></p><button type="button" className="idea-text-button" onClick={() => { setHistoryOpen(true); loadHistory(selected); }}><Translate>EXPLORE THE EDITIONS</Translate></button></div>}
                 {historyError && <p className="state-message" role="alert">{historyError}</p>}
                 {historyOpen && historyLoading && <p className="state-message"><Translate>Loading editions...</Translate></p>}
                 {historyOpen && !historyLoading && history.length === 0 && !historyError && <p className="state-message"><Translate>No revisions available.</Translate></p>}
@@ -433,7 +434,8 @@ export default function Ideas({ token }) {
               </div>
             </section>
           </div>}
-        </div>
+        </div>,
+        document.body
       )}
     </main>
   );
